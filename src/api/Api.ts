@@ -2,6 +2,7 @@ import express, { Application } from 'express'
 import { config } from '../config'
 import { controllers as usersControllers } from './users/controllers'
 import morgan from 'morgan'
+import swaggerUi from 'swagger-ui-express'
 
 export class Api {
   private readonly app: Application
@@ -9,18 +10,9 @@ export class Api {
   constructor() {
     this.app = express()
 
-    this.setupMiddlewares()
+    this.setupLogs()
+    this.setupDocs()
     this.setupControllers()
-  }
-
-  private setupControllers() {
-    const controllers = [...usersControllers]
-
-    controllers.forEach((controller) => controller.registerOn(this.app))
-  }
-
-  private setupMiddlewares() {
-    this.app.use(morgan('common'))
   }
 
   listen() {
@@ -29,5 +21,28 @@ export class Api {
     this.app.listen(port, () => {
       console.log(`Server is running on port ${port}`)
     })
+  }
+
+  private setupLogs() {
+    this.app.use(morgan('common'))
+  }
+
+  private setupDocs() {
+    this.app.use(express.static('public'))
+    this.app.use(
+      '/docs',
+      swaggerUi.serve,
+      swaggerUi.setup(undefined, {
+        swaggerOptions: {
+          url: '/swagger.json',
+        },
+      })
+    )
+  }
+
+  private setupControllers() {
+    const controllers = [...usersControllers]
+
+    controllers.forEach((controller) => controller.registerOn(this.app))
   }
 }

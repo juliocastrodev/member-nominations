@@ -34,5 +34,6 @@ bower_components
 .DS_Store
 Thumbs.db
 
-# Ignore built ts files
+# Ignore generated files
 dist/**/*
+public/**/*
