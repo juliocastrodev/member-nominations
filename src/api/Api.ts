@@ -3,6 +3,7 @@ import { config } from '../config'
 import { controllers as usersControllers } from './users/controllers'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
+import { errorHandler } from '../shared/infrastructure/api/errorHandler'
 
 export class Api {
   private readonly app: Application
@@ -13,6 +14,7 @@ export class Api {
     this.setupLogs()
     this.setupDocs()
     this.setupControllers()
+    this.setupErrorHandler()
   }
 
   listen() {
@@ -38,6 +40,10 @@ export class Api {
         },
       })
     )
+  }
+
+  private setupErrorHandler() {
+    this.app.use(errorHandler)
   }
 
   private setupControllers() {

@@ -33,10 +33,11 @@ export abstract class Controller {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private async handleAndRespond(req: Request, res: Response, _next: NextFunction) {
-    const handleResult = await this.handle(req)
-
-    res.json(handleResult)
+  private async handleAndRespond(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.json(await this.handle(req))
+    } catch (err) {
+      next(err)
+    }
   }
 }
