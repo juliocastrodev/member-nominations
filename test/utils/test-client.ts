@@ -3,7 +3,9 @@ import request from 'supertest'
 import { Api } from '../../src/api/Api'
 import { NominationSnapshot } from '../../src/application/nominations/domain/Nomination'
 import { Status } from '../../src/application/nominations/domain/Status'
+import { UserSnapshot } from '../../src/application/users/domain/User'
 import { config } from '../../src/config'
+import { Role } from '../../src/shared/domain/users/Role'
 import { UNIVERSITY_PARTNER } from '../../src/utils/fixtures/nominations'
 import { MARGOT, TYLER } from '../../src/utils/fixtures/people'
 import { readFromFile } from '../../src/utils/readFromFile'
@@ -100,6 +102,18 @@ export class TestClient {
     )
 
     snapshots[nominationIndex].status = status
+
+    await writeToFile(sourceFile, snapshots)
+  }
+
+  async changeUserRole(userId: string, role: Role) {
+    const sourceFile = `${config.persistence.dir}/users.json`
+
+    const snapshots = (await readFromFile<UserSnapshot[]>(sourceFile)) ?? []
+
+    const userIndex = snapshots.findIndex((snapshot) => snapshot.userId === userId)
+
+    snapshots[userIndex].role = role
 
     await writeToFile(sourceFile, snapshots)
   }
