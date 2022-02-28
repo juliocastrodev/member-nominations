@@ -45,4 +45,12 @@ describe('POST /nominations', () => {
 
     expect(body.code).toEqual(DomainErrorCode.NOMINATION_ALREADY_REGISTERED)
   })
+
+  it('fails if it is not a member who makes the request', async () => {
+    const client = new TestClient()
+
+    const { body } = await client.registerNomination({ jwt: TYLER.jwt }).expect(403)
+
+    expect(body.code).toEqual('AUTH_ERROR')
+  })
 })

@@ -8,11 +8,12 @@ import { NominationRepository } from '../../domain/NominationRepository'
 const sourceFile = `${config.persistence.dir}/nominations.json`
 
 export class NominationRepositoryFiles implements NominationRepository {
-  async find({ nomineeEmail, status }: NominationQuery) {
+  async find({ refererEmail, nomineeEmail, status }: NominationQuery) {
     return (await this.snapshots())
       .filter(
         (nomination) =>
           (!nomineeEmail || nomination.nomineeEmail === nomineeEmail.toSnapshot()) &&
+          (!refererEmail || nomination.refererEmail === refererEmail.toSnapshot()) &&
           (!status || nomination.status === status)
       )
       .map(Nomination.fromSnapshot)
