@@ -1,5 +1,5 @@
 import { UserBuilder } from '../../../../utils/builders/UserBuilder'
-import { EmailAdress } from '../../domain/EmailAddress'
+import { EmailAddress } from '../../domain/EmailAddress'
 import { UserRepositoryFiles } from './UserRepositoryFiles'
 
 describe('UserRepositoryFiles', () => {
@@ -12,7 +12,7 @@ describe('UserRepositoryFiles', () => {
   describe('findByEmail', () => {
     describe('when user is not found', () => {
       it('returns undefined', async () => {
-        const found = await repository.findByEmail(new EmailAdress('notfound@email.com'))
+        const found = await repository.findByEmail(new EmailAddress('notfound@email.com'))
 
         expect(found).toBeUndefined()
       })
@@ -23,7 +23,7 @@ describe('UserRepositoryFiles', () => {
         const user = new UserBuilder().withEmail('test@email.com').build()
         await repository.save(user)
 
-        const found = await repository.findByEmail(new EmailAdress('test@email.com'))
+        const found = await repository.findByEmail(new EmailAddress('test@email.com'))
 
         expect(found).toEqual(user)
       })

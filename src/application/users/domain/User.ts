@@ -1,7 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { Snapshot } from '../../../shared/domain/hex/Snapshot'
 import { UserId } from '../../../shared/domain/users/UserId'
-import { EmailAdress } from './EmailAddress'
+import { EmailAddress } from './EmailAddress'
 import { Name } from './Name'
 import { Role } from '../../../shared/domain/users/Role'
 import { HashedPassword } from '../../../shared/domain/users/HashedPassword'
@@ -9,7 +9,7 @@ import { HashedPassword } from '../../../shared/domain/users/HashedPassword'
 type UserConstructor = {
   userId: UserId
   name: Name
-  email: EmailAdress
+  email: EmailAddress
   password: HashedPassword
   role: Role
 }
@@ -40,7 +40,7 @@ export class User extends AggregateRoot {
       userId: new UserId(snapshot.userId),
       name: new Name(snapshot.name),
       password: new HashedPassword(snapshot.password),
-      email: new EmailAdress(snapshot.email),
+      email: new EmailAddress(snapshot.email),
       role: snapshot.role,
     })
   }

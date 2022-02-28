@@ -3,13 +3,13 @@ import { Password } from '../../../shared/domain/users/Password'
 import { AccessToken } from '../../../shared/services/jwt/domain/AccessToken'
 import { JwtService } from '../../../shared/services/jwt/domain/JwtService'
 import { PasswordService } from '../../../shared/services/password/domain/PasswordService'
-import { EmailAdress } from '../domain/EmailAddress'
+import { EmailAddress } from '../domain/EmailAddress'
 import { UserAuthenticationError } from '../domain/errors/UserAuthenticationError'
 import { User } from '../domain/User'
 import { UserRepository } from '../domain/UserRepository'
 
 type UserAuthenticatorParams = {
-  email: EmailAdress
+  email: EmailAddress
   password: Password
 }
 

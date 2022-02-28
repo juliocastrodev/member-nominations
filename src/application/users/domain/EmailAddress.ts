@@ -1,3 +1,3 @@
 import { SingleValueObject } from '../../../shared/domain/hex/SingleValueObject'
 
-export class EmailAdress extends SingleValueObject<string> {}
+export class EmailAddress extends SingleValueObject<string> {}

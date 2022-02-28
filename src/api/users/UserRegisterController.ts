@@ -8,7 +8,7 @@ import { UserRegisterDTO } from './dtos/UserRegisterDTO'
 import { User } from '../../application/users/domain/User'
 import { UserId } from '../../shared/domain/users/UserId'
 import { Name } from '../../application/users/domain/Name'
-import { EmailAdress } from '../../application/users/domain/EmailAddress'
+import { EmailAddress } from '../../application/users/domain/EmailAddress'
 import { PasswordService } from '../../shared/services/password/domain/PasswordService'
 import { Password } from '../../shared/domain/users/Password'
 import { UserShowDTO } from './dtos/UserShowDTO'
@@ -34,7 +34,7 @@ export class UserRegisterController extends Controller {
     const user = new User({
       userId: new UserId(this.randomService.generateUuidV4()),
       name: new Name(body.name),
-      email: new EmailAdress(body.email),
+      email: new EmailAddress(body.email),
       password: await this.passwordService.hash(new Password(body.password)),
       role: Role.MEMBER,
     })

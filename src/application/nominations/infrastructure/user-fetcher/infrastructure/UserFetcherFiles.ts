@@ -1,14 +1,14 @@
 import { config } from '../../../../../config'
 import { UserId } from '../../../../../shared/domain/users/UserId'
 import { readFromFile } from '../../../../../utils/readFromFile'
-import { EmailAdress } from '../../../../users/domain/EmailAddress'
+import { EmailAddress } from '../../../../users/domain/EmailAddress'
 import { UserFetcher } from '../domain/UserFetcher'
 
 export class UserFetcherFiles implements UserFetcher {
   async findEmailOf(id: UserId) {
     const found = (await this.snapshots()).find(({ userId }) => userId === id.toSnapshot())
 
-    return found && new EmailAdress(found.email)
+    return found && new EmailAddress(found.email)
   }
 
   async snapshots() {

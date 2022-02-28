@@ -3,6 +3,7 @@ import { Snapshot } from '../../../shared/domain/hex/Snapshot'
 import { NominationId } from '../../../shared/domain/nominations/NominationId'
 import { EmailAdress } from '../../../shared/domain/users/EmailAddress'
 import { Reason } from './Reason'
+import { Score } from './Score'
 import { Scores } from './Scores'
 import { Status } from './Status'
 
@@ -54,5 +55,17 @@ export class Nomination extends AggregateRoot {
 
   getNomineeEmail() {
     return this.props.nomineeEmail
+  }
+
+  getRefererEmail() {
+    return this.props.refererEmail
+  }
+
+  shouldBeRejected() {
+    return this.props.scores.isOverallTalentLowerThan(new Score(8))
+  }
+
+  reject() {
+    return new Nomination({ ...this.props, status: Status.REJECTED })
   }
 }

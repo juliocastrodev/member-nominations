@@ -7,4 +7,8 @@ export class Score extends SingleValueObject<number> {
 
     if (score < 0 || score > 10) throw new InvalidNominationScoreError(score)
   }
+
+  isLowerThan(score: Score) {
+    return this.toSnapshot() < score.toSnapshot()
+  }
 }

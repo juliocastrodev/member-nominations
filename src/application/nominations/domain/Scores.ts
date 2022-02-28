@@ -31,4 +31,8 @@ export class Scores extends ValueObject {
       overallTalent: new Score(snaphot.overallTalent),
     })
   }
+
+  isOverallTalentLowerThan(score: Score) {
+    return this.props.overallTalent.isLowerThan(score)
+  }
 }

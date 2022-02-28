@@ -2,6 +2,7 @@ import { NominationRepositoryFiles } from '../../application/nominations/infrast
 import { UserFetcherFiles } from '../../application/nominations/infrastructure/user-fetcher/infrastructure/UserFetcherFiles'
 import { NominationRegistrar } from '../../application/nominations/use-cases/NominationRegistrar'
 import { Controller } from '../../shared/infrastructure/api/Controller'
+import { EventEmitterNode } from '../../shared/services/event-emitter/infrastructure/EventEmitterNode'
 import { JwtServiceJsonWebToken } from '../../shared/services/jwt/infrastructure/JwtServiceJsonWebToken'
 import { RandomServiceUuid } from '../../shared/services/random/infrastructure/RandomServiceUuid'
 import { ValidationServiceClassValidator } from '../../shared/services/validation/infrastructure/ValidationServiceClassValidator'
@@ -13,10 +14,15 @@ const services = {
   validator: new ValidationServiceClassValidator(),
   jwt: new JwtServiceJsonWebToken(),
   userFetcher: new UserFetcherFiles(),
+  emitter: new EventEmitterNode(),
 }
 
 const useCases = {
-  nominationRegistrar: new NominationRegistrar(services.repository, services.userFetcher),
+  nominationRegistrar: new NominationRegistrar(
+    services.repository,
+    services.userFetcher,
+    services.emitter
+  ),
 }
 
 export const controllers: Controller[] = [

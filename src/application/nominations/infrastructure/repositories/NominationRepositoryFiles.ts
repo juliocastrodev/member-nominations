@@ -24,6 +24,19 @@ export class NominationRepositoryFiles implements NominationRepository {
     await writeToFile(sourceFile, snapshots)
   }
 
+  async update(updatedNomination: Nomination) {
+    const updatedSnapshot = updatedNomination.toSnapshot()
+    const snapshots = await this.snapshots()
+
+    const nominationIndex = snapshots.findIndex(
+      (snapshot) => snapshot.nominationId === updatedSnapshot.nominationId
+    )
+
+    snapshots[nominationIndex] = updatedSnapshot
+
+    await writeToFile(sourceFile, snapshots)
+  }
+
   async snapshots() {
     return (await readFromFile<NominationSnapshot[]>(sourceFile)) ?? []
   }

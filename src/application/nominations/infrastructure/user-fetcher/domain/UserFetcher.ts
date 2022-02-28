@@ -1,6 +1,6 @@
 import { UserId } from '../../../../../shared/domain/users/UserId'
-import { EmailAdress } from '../../../../users/domain/EmailAddress'
+import { EmailAddress } from '../../../../users/domain/EmailAddress'
 
 export interface UserFetcher {
-  findEmailOf(userId: UserId): Promise<EmailAdress | undefined>
+  findEmailOf(userId: UserId): Promise<EmailAddress | undefined>
 }

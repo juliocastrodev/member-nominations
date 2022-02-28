@@ -1,7 +1,7 @@
 import { Controller } from '../../shared/infrastructure/api/Controller'
 import { HttpMethod } from '../../shared/infrastructure/api/HttpMethod'
 import { ValidationService } from '../../shared/services/validation/domain/ValidationService'
-import { EmailAdress } from '../../application/users/domain/EmailAddress'
+import { EmailAddress } from '../../application/users/domain/EmailAddress'
 import { Password } from '../../shared/domain/users/Password'
 import { ApplicationRequest } from '../../shared/infrastructure/api/ApplicationRequest'
 import { UserLoginDTO } from './dtos/UserLoginDTO'
@@ -20,7 +20,7 @@ export class UserLoginController extends Controller {
     const body = await this.validatorService.validate(UserLoginDTO, req.body)
 
     const accessToken = await this.userAuthenticator.execute({
-      email: new EmailAdress(body.email),
+      email: new EmailAddress(body.email),
       password: new Password(body.password),
     })
 

@@ -2,6 +2,8 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { UserId } from '../../../shared/domain/users/UserId'
 import { UserNotFoundError } from '../../users/domain/errors/UserNotFoundError'
 import { NominationAlreadyRegisteredError } from '../domain/errors/NominationAlreadyRegisteredError'
+import { NominationEmitter } from '../domain/events/NominationEmitter'
+import { NominationRegisteredEvent } from '../domain/events/NominationRegisteredEvent'
 import { Nomination, NominationConstructor } from '../domain/Nomination'
 import { NominationRepository } from '../domain/NominationRepository'
 import { UserFetcher } from '../infrastructure/user-fetcher/domain/UserFetcher'
@@ -16,7 +18,8 @@ type NominationRegisterParams = Pick<
 export class NominationRegistrar extends UseCase<NominationRegisterParams, Nomination> {
   constructor(
     private readonly nominationRepository: NominationRepository,
-    private readonly userFetcher: UserFetcher
+    private readonly userFetcher: UserFetcher,
+    private readonly nominationEmitter: NominationEmitter
   ) {
     super()
   }
@@ -27,6 +30,8 @@ export class NominationRegistrar extends UseCase<NominationRegisterParams, Nomin
 
     await this.ensureNominationIsNotAlreadyRegistered(nomination)
     await this.nominationRepository.save(nomination)
+
+    this.nominationEmitter.emit(new NominationRegisteredEvent({ nomination }))
 
     return nomination
   }

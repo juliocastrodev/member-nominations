@@ -3,5 +3,6 @@ import { NominationQuery } from './NominationQuery'
 
 export interface NominationRepository {
   find(query: NominationQuery): Promise<Nomination[]>
-  save(user: Nomination): Promise<void>
+  save(nomination: Nomination): Promise<void>
+  update(nomination: Nomination): Promise<void>
 }
