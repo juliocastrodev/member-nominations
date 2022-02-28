@@ -10,7 +10,7 @@ export type JwtPayloadConstructor = {
   role: Role
 }
 
-type JwtPayloadSnapshot = Snapshot<JwtPayload>
+export type JwtPayloadSnapshot = Snapshot<JwtPayload>
 
 export class JwtPayload extends ValueObject {
   constructor(private readonly props: JwtPayloadConstructor) {
