@@ -8,4 +8,8 @@ export abstract class SingleValueObject<T> extends ValueObject {
   toSnapshot() {
     return this.value
   }
+
+  toString() {
+    return this.toSnapshot()
+  }
 }

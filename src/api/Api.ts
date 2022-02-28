@@ -1,8 +1,8 @@
 import express, { Application } from 'express'
 import { config } from '../config'
 import { controllers as usersControllers } from './users/controllers'
+import { controllers as nominationsControllers } from './nominations/controllers'
 import morgan from 'morgan'
-import swaggerUi from 'swagger-ui-express'
 import { errorHandler } from '../shared/infrastructure/api/errorHandler'
 
 export class Api {
@@ -12,7 +12,7 @@ export class Api {
     this.app = express()
 
     this.setupLogs()
-    this.setupDocs()
+    this.setupBodyParser()
     this.setupControllers()
     this.setupErrorHandler()
   }
@@ -25,21 +25,12 @@ export class Api {
     })
   }
 
-  private setupLogs() {
-    this.app.use(morgan('common'))
+  private setupBodyParser() {
+    this.app.use(express.json())
   }
 
-  private setupDocs() {
-    this.app.use(express.static('public'))
-    this.app.use(
-      '/docs',
-      swaggerUi.serve,
-      swaggerUi.setup(undefined, {
-        swaggerOptions: {
-          url: '/swagger.json',
-        },
-      })
-    )
+  private setupLogs() {
+    this.app.use(morgan('common'))
   }
 
   private setupErrorHandler() {
@@ -47,7 +38,7 @@ export class Api {
   }
 
   private setupControllers() {
-    const controllers = [...usersControllers]
+    const controllers = [...usersControllers, ...nominationsControllers]
 
     controllers.forEach((controller) => controller.registerOn(this.app))
   }

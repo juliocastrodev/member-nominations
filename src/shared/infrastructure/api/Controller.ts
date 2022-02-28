@@ -1,9 +1,12 @@
-import { Application, NextFunction, Request, Response } from 'express'
+import { Application, Handler, Request } from 'express'
+import { Role } from '../../domain/users/Role'
+import { authFor } from './authFor'
 import { HttpMethod } from './HttpMethod'
 
 type ControllerConstructor = {
   method: HttpMethod
   route: string
+  roles?: Role[]
 }
 
 export abstract class Controller {
@@ -12,28 +15,31 @@ export abstract class Controller {
   abstract handle(req: Request): unknown
 
   registerOn(app: Application) {
-    const { method, route } = this.props
+    const { method, route, roles } = this.props
+
+    let handlers: Handler[] = [this.applicationHandler]
+    if (roles) handlers = [authFor(roles), ...handlers]
 
     switch (method) {
       case HttpMethod.GET:
-        app.get(route, (...params) => this.handleAndRespond(...params))
+        app.get(route, ...handlers)
         break
       case HttpMethod.POST:
-        app.post(route, (...params) => this.handleAndRespond(...params))
+        app.post(route, ...handlers)
         break
       case HttpMethod.PATCH:
-        app.patch(route, (...params) => this.handleAndRespond(...params))
+        app.patch(route, ...handlers)
         break
       case HttpMethod.PUT:
-        app.put(route, (...params) => this.handleAndRespond(...params))
+        app.put(route, ...handlers)
         break
       case HttpMethod.DELETE:
-        app.delete(route, (...params) => this.handleAndRespond(...params))
+        app.delete(route, ...handlers)
         break
     }
   }
 
-  private async handleAndRespond(req: Request, res: Response, next: NextFunction) {
+  private applicationHandler: Handler = async (req, res, next) => {
     try {
       res.json(await this.handle(req))
     } catch (err) {
