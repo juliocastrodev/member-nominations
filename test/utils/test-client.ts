@@ -25,4 +25,8 @@ export class TestClient {
       .send({ name, email, password })
       .auth(jwt, { type: 'bearer' })
   }
+
+  login({ email = MARGOT.email, password = MARGOT.password } = {}) {
+    return request(this.app).post('/users/login').send({ email, password })
+  }
 }

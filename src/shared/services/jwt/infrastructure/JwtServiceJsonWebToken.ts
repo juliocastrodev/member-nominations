@@ -6,12 +6,14 @@ import { config } from '../../../../config'
 import { AuthError } from '../domain/errors/AuthError'
 import { UserId } from '../../../domain/users/UserId'
 import { JwtPayload } from '../domain/JwtPayload'
+import { User } from '../../../../application/users/domain/User'
 
 type JsonWebTokenPayload = LibraryPayload & { role: Role; sub: string }
 
 export class JwtServiceJsonWebToken implements JwtService {
-  sign(id: UserId, role: Role) {
-    const payload: JsonWebTokenPayload = { role, sub: id.toSnapshot() }
+  signFor(user: User) {
+    const { role, userId: sub } = user.toSnapshot()
+    const payload: JsonWebTokenPayload = { role, sub }
 
     const accessToken = jwt.sign(payload, config.jwt.secret, {
       expiresIn: config.jwt.exp,

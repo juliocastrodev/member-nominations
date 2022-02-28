@@ -48,4 +48,12 @@ export class User extends AggregateRoot {
   getEmail() {
     return this.props.email
   }
+
+  getPassword() {
+    return this.props.password
+  }
+
+  getId() {
+    return this.props.userId
+  }
 }

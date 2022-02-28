@@ -42,8 +42,6 @@ export abstract class Controller {
       res.status(this.props.status ?? 200)
       res.json(responseBody)
     } catch (err) {
-      console.error(err)
-
       next(err)
     }
   }

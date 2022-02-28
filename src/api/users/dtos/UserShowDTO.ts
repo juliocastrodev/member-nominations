@@ -7,7 +7,7 @@ export class UserShowDTO {
   email!: string
   role!: Role
 
-  static fromDomain(user: User) {
+  static fromDomain(user: User): UserShowDTO {
     const snapshot = user.toSnapshot()
 
     return {

@@ -7,6 +7,7 @@ import { ValidationError } from '../../services/validation/domain/errors/Validat
 const DOMAIN_ERROR_TO_HTTP: Record<DomainErrorCode, number> = {
   [DomainErrorCode.USER_NOT_FOUND]: 404,
   [DomainErrorCode.USER_ALREADY_REGISTERED]: 409,
+  [DomainErrorCode.USER_AUTHENTICATION_ERROR]: 401,
   [DomainErrorCode.NOMINATION_ALREADY_REGISTERED]: 409,
   [DomainErrorCode.INVALID_NOMINATION_SCORE]: 400,
 }

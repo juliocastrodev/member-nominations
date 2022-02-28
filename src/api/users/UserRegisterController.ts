@@ -30,6 +30,7 @@ export class UserRegisterController extends Controller {
   async handle(req: ApplicationRequest) {
     await this.jwtService.verify([Role.ADMIN], AccessToken.create(req.auth))
     const body = await this.validatorService.validate(UserRegisterDTO, req.body)
+
     const user = new User({
       userId: new UserId(this.randomService.generateUuidV4()),
       name: new Name(body.name),
