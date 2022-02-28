@@ -4,15 +4,16 @@ import { controllers as usersControllers } from './users/controllers'
 import { controllers as nominationsControllers } from './nominations/controllers'
 import morgan from 'morgan'
 import { errorHandler } from '../shared/infrastructure/api/errorHandler'
+import { includeAuth } from '../shared/infrastructure/api/includeAuth'
 
 export class Api {
-  private readonly app: Application
+  readonly app: Application
 
   constructor() {
     this.app = express()
 
     this.setupLogs()
-    this.setupBodyParser()
+    this.setupParsers()
     this.setupControllers()
     this.setupErrorHandler()
   }
@@ -25,8 +26,9 @@ export class Api {
     })
   }
 
-  private setupBodyParser() {
+  private setupParsers() {
     this.app.use(express.json())
+    this.app.use(includeAuth)
   }
 
   private setupLogs() {

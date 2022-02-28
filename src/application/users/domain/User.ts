@@ -14,7 +14,7 @@ type UserConstructor = {
   role: Role
 }
 
-type UserSnapshot = Snapshot<User>
+export type UserSnapshot = Snapshot<User>
 
 export class User extends AggregateRoot {
   constructor(private readonly props: UserConstructor) {

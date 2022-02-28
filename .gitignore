@@ -36,4 +36,4 @@ Thumbs.db
 
 # Ignore generated files
 dist/**/*
-public/**/*
+persistence/**/*

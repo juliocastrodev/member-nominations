@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { DomainError } from '../../domain/errors/DomainError'
 import { DomainErrorCode } from '../../domain/errors/DomainErrorCode'
-import { ValidationError } from '../../services/validator/domain/errors/ValidationError'
+import { AuthError } from '../../services/jwt/domain/errors/AuthError'
+import { ValidationError } from '../../services/validation/domain/errors/ValidationError'
 
 const DOMAIN_ERROR_TO_HTTP: Record<DomainErrorCode, number> = {
   [DomainErrorCode.USER_NOT_FOUND]: 404,
@@ -24,6 +25,10 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
     status = 400
     message = err.message
     code = 'VALIDATION_ERROR'
+  } else if (err instanceof AuthError) {
+    status = err.code
+    message = err.message
+    code = 'AUTH_ERROR'
   } else {
     status = 500
     message = 'Something went wrong'
